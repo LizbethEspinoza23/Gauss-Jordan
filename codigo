@@ -1,0 +1,29 @@
+function x = jordan(A,b)  
+n = length(b); 
+o=length(A); 
+A=[A';b']';
+x=zeros(n,1);
+if o!=n
+  msgID = 'GAUSS:condicion';
+  msg = 'Error: No tiene la misma dimension ';
+  
+  error(msgID,msg)
+else 
+   for p=1:n
+    for k=[1:p-1,p+1:n]
+        if A(p,p)==0
+            break
+        end
+        mult=A(k,p)/A(p,p);
+        A(k,:)=A(k,:)-mult*A(p,:)
+    end
+end
+x(n)=A(n,n+1)/A(n,n);
+for i=n-1:-1:1
+  s=0;
+  for j=n:-1:i+1
+    s=s+A(i,j)*x(j);
+  endfor
+  x(i)=(A(i,n+1)-s)/A(i,i);
+endfor
+end 
